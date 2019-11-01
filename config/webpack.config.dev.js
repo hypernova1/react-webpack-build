@@ -48,6 +48,12 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, "../build"),
     index: 'index.html',
-    port: 3000
+    port: 3000,
+    open: true,
+    proxy: {
+      '/' :{
+        target: 'http://localhost:8080'
+      }
+    },
   }
 }

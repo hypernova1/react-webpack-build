@@ -1,11 +1,12 @@
 import React from 'react'
-import './style.scss';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 
 const Root = () => {
   return (
-    <div>
-      <h1 className="title">Hello, React!!</h1>
-    </div>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   )
 }
 
