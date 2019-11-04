@@ -1,9 +1,10 @@
-import { handleActions } from 'redux-actions';
+import { createAction, handleActions } from 'redux-actions';
 import { login } from '../service/loginAPI';
 
 const AUTH_LOGIN_PENDING = 'auth/AUTH_LOGIN_PENDING';
 const AUTH_LOGIN_SUCCESS = 'auth/AUTH_LOGIN_SUCCESS';
 const AUTH_LOGIN_FAILURE = 'auth/AUTH_LOGIN_FAULURE';
+const AUTH_LOGOUT = 'auth/AUTH_LOGOUT';
 
 export const accessLogin = (id, pwd) => dispatch => {
   // 요청이 시작되었다고 알림
@@ -15,7 +16,7 @@ export const accessLogin = (id, pwd) => dispatch => {
       dispatch({
         type: AUTH_LOGIN_SUCCESS,
         payload: {
-          isLogin: response.data
+          userInfo: response.data,
         }
       });
     }
@@ -29,10 +30,12 @@ export const accessLogin = (id, pwd) => dispatch => {
   })
 }
 
+export const logout = createAction(AUTH_LOGOUT);
+
 const initialState = {
   pending: false,
   error: false,
-  isLogin: false,
+  userInfo: null,
 };
 
 export default handleActions({
@@ -47,7 +50,7 @@ export default handleActions({
     return {
       ...state,
       pending: false,
-      isLogin: action.payload.isLogin
+      userInfo: action.payload.userInfo,
     };
   },
   [AUTH_LOGIN_FAILURE]: (state, action) => {
@@ -55,6 +58,12 @@ export default handleActions({
       ...state,
       pending: false,
       error: true
+    }
+  },
+  [AUTH_LOGOUT]: (state, action) => {
+    return {
+      ...state,
+      userInfo: null
     }
   }
 }, initialState);
